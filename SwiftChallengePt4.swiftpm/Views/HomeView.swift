@@ -21,10 +21,11 @@ struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var countryController = RealmViewController()
     @Environment(CoinViewController.self) private var coinController
+    @Environment(\.dismiss) var dismiss
     @Environment(CarbonEmissionDailyController.self) private var dailyController
 
     @State private var currentUserY: Double?
-    @State private var currentEarthModelName: String = "earth_intense"
+    @State private var currentEarthModelName: String = ""
     @State private var generatedText = ""
     @State private var modelEntity: ModelEntity?
     @State private var anchorEntity: AnchorEntity?
@@ -119,11 +120,12 @@ struct HomeView: View {
 
 
             VStack {
-                HStack {
+                HStack{
                     Spacer()
                     Image("goat")
                         .resizable()
                         .frame(width: 30, height: 30)
+                    
                     Text("\(coinController.currentAmount)")
                         .foregroundStyle(.white)
                         .fontWeight(.bold)
@@ -161,102 +163,52 @@ struct HomeView: View {
                     .padding(.bottom, 100)
             }
 
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading) {
                 HStack {
                     Button {
-                        withAnimation(.spring()) {
-                            showLayerInfo.toggle()
-                            showCoinsConversion = false
-                        }
+                        showLayerInfo = true
+                        showCoinsConversion = false
                     } label: {
                         ZStack {
                             Circle()
                                 .fill(Color.blue.opacity(0.9))
-                                .frame(width: 50, height: 50)
+                                .frame(width: 30, height: 30)
                                 .shadow(radius: 8)
                             Image(systemName: "leaf.fill")
                                 .foregroundColor(.white)
-                                .font(.title3)
+                                .font(.subheadline)
+                            
                         }
-                    }
-
-                    if showLayerInfo {
-                        VStack(spacing: 12) {
-                            Text("Next Layer Progress")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                            Button {
-                                withAnimation(.easeInOut) {
-                                    showCoinsConversion.toggle()
-                                }
-                            } label: {
-                                if showCoinsConversion {
-                                    Text("\(nextLayerCoin) Coins Needed")
-                                        .font(.title3)
-                                        .bold()
-                                        .foregroundColor(.yellow)
-                                } else {
-                                    if nextLayerText == "Pollution Averted" {
-                                        Text("0.00 tons")
-                                            .font(.title3)
-                                            .bold()
-                                            .foregroundColor(.green)
-                                    } else {
-                                        Text(nextLayerText)
-                                            .font(.title3)
-                                            .bold()
-                                            .foregroundColor(currentFootprintColor)
-                                    }
-                                }
-                            }
-                            Text("Tap number to convert")
-                                .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
-                        }
-                        .padding(18)
-                        .frame(width: 230)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(.ultraThinMaterial)
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 20)
-                                .stroke(Color.white.opacity(0.15))
-                        )
-                        .shadow(radius: 12)
-                        .transition(.move(edge: .top).combined(with: .opacity))
                     }
 
                     Spacer()
                 }
-                .padding()
                 Spacer()
             }
-            .padding(.leading, 20)
-            .padding(.top, 40)
+            .padding()
 
-            VStack {
-                Spacer()
-                HStack {
-                    Button {
-                        sheetPresented = true
-                    } label: {
-                        Image(systemName: "calendar")
-                            .font(.title2)
-                            .foregroundColor(.white)
-                            .padding(12)
-                            .background(Circle().fill(Color.green.opacity(0.85)))
-                            .shadow(radius: 6)
-                    }
-                    .padding(.leading, 30)
-
-                    Spacer()
-                }
-                .padding(.bottom, 40)
-            }
+//            VStack {
+//                Spacer()
+//                HStack {
+//                    Button {
+//                        sheetPresented = true
+//                    } label: {
+//                        Image(systemName: "calendar")
+//                            .font(.title2)
+//                            .foregroundColor(.white)
+//                            .padding(12)
+//                            .background(Circle().fill(Color.green.opacity(0.85)))
+//                            .shadow(radius: 6)
+//                    }
+//                    .padding(.leading, 30)
+//
+//                    Spacer()
+//                }
+//                .padding(.bottom, 40)
+//            }
         }
         .onTapGesture {
-            showLayerInfo = false
+            dismiss()
         }
         .onChange(of: dailyController.amount) { _, _ in
             updateCoinPoint()
@@ -280,6 +232,48 @@ struct HomeView: View {
             updateCoinPoint()
             startTextGen()
         }
+        .sheet(isPresented: $showLayerInfo){
+            ZStack{
+                ColorScheme()
+
+                    VStack(spacing: 12) {
+                        Text("Next Layer Progress")
+                            .font(.title)
+                            .foregroundColor(.white)
+                        Button {
+                            withAnimation(.easeInOut) {
+                                showCoinsConversion.toggle()
+                            }
+                        } label: {
+                            if showCoinsConversion {
+                                Text("\(nextLayerCoin) Coins Needed")
+                                    .font(.title2)
+                                    .bold()
+                                    .foregroundColor(.yellow)
+                            } else {
+                                if nextLayerText == "Pollution Averted" {
+                                    Text("0.00 tons")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(.green)
+                                } else {
+                                    Text(nextLayerText)
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(currentFootprintColor)
+                                }
+                            }
+                        }
+                        Text("Tap number to convert")
+                            .font(.title3)
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                    .padding(18)
+                
+            }
+            .presentationDetents([.medium])
+        }
+
     }
 
     // MARK: - AI Quote (unchanged)

@@ -56,7 +56,7 @@ struct ContentView: View {
                     
                     if showNextAttribute {
                         
-                        Image("SwiftInterntionImage-removebg-preview")
+                        Image("SwiftInterntionImage-removebg-preview 1")
                             .resizable()
                             .frame(width: 200, height: 200)
                             .padding()

@@ -141,60 +141,6 @@ struct IslandView: View {
             .overlay {
                 VStack {
                     HStack {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Button {
-                                withAnimation(.spring(response: 0.45, dampingFraction: 0.9)) {
-                                    showDebugMenu.toggle()
-                                }
-                            } label: {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 48, height: 48)
-                                        .shadow(color: .black.opacity(0.12), radius: 4, x: 0, y: 2)
-                                    Image(systemName: "gearshape.fill")
-                                        .font(.system(size: 20))
-                                        .foregroundStyle(.blue)
-                                }
-                            }
-                            
-                            if showDebugMenu {
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text("Debug Menu")
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .padding(.bottom, 4)
-                                    Text("Models in DB \(storedModels.count)")
-                                        .font(.caption)
-                                        .padding(8)
-                                        .background(Color.red)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                    
-                                    Button("List All Models") {
-                                        listAllModels()
-                                    }
-                                    .font(.caption)
-                                    .padding(8)
-                                    .background(Color.blue)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                                    
-                                    Button("Clean View") {}
-                                        .font(.caption)
-                                        .padding(8)
-                                        .background(Color.green)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                }
-                                .padding(12)
-                                .background(Color.white)
-                                .cornerRadius(12)
-                                .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 4)
-                            }
-                        }
-                        .padding()
-                        
                         Spacer()
                         VStack {
                             HStack{

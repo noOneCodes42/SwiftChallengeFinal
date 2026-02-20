@@ -36,10 +36,11 @@ struct MainTabView: View {
                 .tabItem {
                     Label("AR View", systemImage: "snowflake")
                 }
-            StatisticsView()
-                .tabItem {
-                    Label("Statistics", systemImage: "chart.xyaxis.line")
+            CalendarView()
+                .tabItem{
+                    Label("Calendar", systemImage: "calendar")
                 }
+
         }
         .environment(coinController)
         .environment(carbonSavedController)

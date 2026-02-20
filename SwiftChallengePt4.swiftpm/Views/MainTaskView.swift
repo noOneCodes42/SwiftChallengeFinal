@@ -167,6 +167,7 @@ struct MainTaskView: View {
                         }
                     }
                 }
+                .padding()
                 ScrollView(.horizontal){
                     HStack{
                         ForEach(fifthRow) { task in

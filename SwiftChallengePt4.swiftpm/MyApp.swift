@@ -25,16 +25,12 @@ struct MyApp: App {
             
             container = try ModelContainer(for: schema, configurations: [config])
             
-            print("✅ SwiftData container initialized successfully")
-            print("📦 Schema includes \(schema.entities.count) entities")
             
             // Log the container's context for debugging
             let context = container.mainContext
-            print("📍 ModelContext created: \(context)")
             
         } catch {
-            print("❌ Failed to initialize ModelContainer: \(error)")
-            print("❌ Error details: \(error.localizedDescription)")
+            print("Error details: \(error.localizedDescription)")
             fatalError("Failed to initialize ModelContainer: \(error)")
         }
     }
