@@ -34,10 +34,34 @@ struct MyApp: App {
             fatalError("Failed to initialize ModelContainer: \(error)")
         }
     }
-    
+    @State private var launchScreen = true
     var body: some Scene {
         WindowGroup {
-            MainView()
+            if launchScreen {
+                XcodeOnBoardingView(foregroundColor: .white) { isAnimating in
+                    
+                    Image("AppIconLaunchScreen")
+                        .resizable()
+                        .frame(width: 385, height: 385)
+
+                        .scaleEffect(isAnimating ? 0.5 : 1)
+                        .foregroundStyle(.white)
+                } content: { isAnimating in
+                    VStack(spacing: 15){
+                        Text("Welcome To EcoHelp")
+                            .font(.largeTitle.bold())
+                            .foregroundStyle(.white)
+                            .padding(.top, 20)
+                            .task {
+                                try? await Task.sleep(for: .seconds(2.7))
+                                launchScreen = false
+                            }
+
+                    }
+                }
+            } else {
+                MainView()
+            }
         }
         .modelContainer(container)
     }
