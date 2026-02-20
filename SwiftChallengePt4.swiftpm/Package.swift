@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "SwiftChallengePt4",
+    name: "EcoHelp",
     platforms: [
         .iOS("26.0")
     ],
     products: [
         .iOSApplication(
-            name: "SwiftChallengePt4",
+            name: "EcoHelp",
             targets: ["AppModule"],
             bundleIdentifier: "co.neelStanford.SwiftChallengePt4",
             teamIdentifier: "65C2DBC547",

@@ -87,7 +87,7 @@ struct CalendarView: View {
                     // Load USDZ model from Bundle
                     if let url = Bundle.main.url(forResource: entry.modelName, withExtension: "usdz", subdirectory: "3D Models"),
                        let model = try? await ModelEntity(contentsOf: url) {
-                        print("✅ Loaded calendar model: \(entry.modelName)")
+                        print("Loaded calendar model: \(entry.modelName)")
                         // Unique name + fresh transform
                         model.name = modelId
                         model.scale = [0.6, 0.6, 0.6]        // Smaller
@@ -122,7 +122,7 @@ struct CalendarView: View {
     // MARK: - Infinite Rotation
     func spinForEver(model: ModelEntity) async {
         while true {
-            let q = simd_quatf(angle: -0.01, axis: SIMD3<Float>(0, 1, 0))
+            let q = simd_quatf(angle: 0.01, axis: SIMD3<Float>(0, 1, 0))
             model.transform.rotation = q * model.transform.rotation
             try? await Task.sleep(nanoseconds: 16_000_000)
         }

@@ -367,7 +367,7 @@ struct HomeView: View {
 
     func spinForEver(model: ModelEntity) async {
         while true {
-            let q = simd_quatf(angle: -0.01, axis: SIMD3<Float>(0, 1, 0))
+            let q = simd_quatf(angle: 0.01, axis: SIMD3<Float>(0, 1, 0))
             model.transform.rotation = q * model.transform.rotation
             try? await Task.sleep(nanoseconds: 16_000_000)
         }
